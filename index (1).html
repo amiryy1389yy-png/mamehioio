@@ -1,0 +1,544 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AI Context — Reduce Unnecessary AI Context Before Your Model</title>
+  <meta name="description" content="AI Context is an n8n preprocessing node that optimizes AI context before it reaches your model using RTK, Graphify, Context Assembly, and Headroom.">
+  <meta name="theme-color" content="#0b0d10">
+  <meta name="color-scheme" content="dark">
+  <link rel="canonical" href="CANONICAL_URL">
+
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="AI Context">
+  <meta property="og:title" content="AI Context — Reduce Unnecessary AI Context Before Your Model">
+  <meta property="og:description" content="An n8n preprocessing node that optimizes AI context before it reaches your model. In one real measured test: 22,080 → 12,382 tokens (43.92% reduction).">
+  <meta property="og:image" content="assets/og-image.png">
+  <meta property="og:image:alt" content="AI Context — 22,080 to 12,382 tokens, 43.92% reduction, measured in a real test">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="AI Context — Reduce Unnecessary AI Context Before Your Model">
+  <meta name="twitter:description" content="An n8n preprocessing node that optimizes AI context before it reaches your model.">
+  <meta name="twitter:image" content="assets/og-image.png">
+
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230b0d10'/%3E%3Cpath d='M8 9h16M8 16h10M8 23h16' stroke='%236ee7b7' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body id="top">
+  <a class="skip" href="#main">Skip to content</a>
+
+  <header class="site-header">
+    <div class="wrap bar">
+      <a class="brand" href="#top" aria-label="AI Context — home">
+        <svg class="mark" viewBox="0 0 32 32" width="26" height="26" aria-hidden="true" focusable="false"><rect width="32" height="32" rx="7" fill="currentColor" opacity=".12"/><path d="M8 9h16M8 16h10M8 23h16" stroke="currentColor" stroke-width="3" stroke-linecap="round" fill="none"/></svg>
+        <span class="brand-text">AI<b>Context</b></span>
+      </a>
+      <button class="menu-btn" type="button" aria-expanded="false" aria-controls="primary-nav">
+        <span class="sr">Toggle </span>Menu
+      </button>
+      <nav id="primary-nav" class="nav" aria-label="Primary">
+        <ul>
+          <li><a href="#how">How it works</a></li>
+          <li><a href="#benchmark">Benchmark</a></li>
+          <li><a href="#savings">Savings</a></li>
+          <li><a href="#install">Installation</a></li>
+          <li><a href="#faq">FAQ</a></li>
+        </ul>
+      </nav>
+      <a class="btn btn-primary btn-sm" data-link="DOWNLOAD_URL" href="#download">Download<span class="hide-sm">&nbsp;AI Context</span></a>
+    </div>
+  </header>
+
+  <main id="main">
+
+    <!-- HERO -->
+    <section class="hero">
+      <div class="wrap hero-grid">
+        <div class="hero-copy">
+          <p class="eyebrow"><span class="dot" aria-hidden="true"></span>n8n Community Node</p>
+          <h1>Optimize AI context <span class="soft">before it reaches your model.</span></h1>
+          <p class="tagline mono">Less Context. Lower Token Usage.</p>
+          <p class="lede">An n8n preprocessing node that combines repository-aware context, graph context, context assembly, and compression to reduce unnecessary AI context.</p>
+          <div class="cta-row">
+            <a class="btn btn-primary" data-link="DOWNLOAD_URL" href="#download">Download AI Context</a>
+            <a class="btn btn-ghost" href="#benchmark">See the benchmark</a>
+          </div>
+        </div>
+
+        <aside class="hero-pipe card" aria-label="AI Context pipeline summary">
+          <p class="mono label">pipeline</p>
+          <ol class="mini-pipe mono">
+            <li>INPUT</li>
+            <li class="hl">AI Context
+              <ul>
+                <li>RTK</li>
+                <li>Graphify</li>
+                <li>Context Assembly</li>
+                <li>Headroom</li>
+              </ul>
+            </li>
+            <li>Final Context</li>
+            <li>AI Model / Agent</li>
+          </ol>
+        </aside>
+      </div>
+
+      <div class="wrap">
+        <div class="metric-strip" role="group" aria-label="Benchmark summary — measured in a real test">
+          <div class="m">
+            <p class="m-val mono"><span data-count="22080">22,080</span> <span class="arrow" aria-hidden="true">→</span> <span data-count="12382">12,382</span></p>
+            <p class="m-lab">tokens before → after</p>
+          </div>
+          <div class="m">
+            <p class="m-val mono"><span data-count="9698">9,698</span></p>
+            <p class="m-lab">tokens saved</p>
+          </div>
+          <div class="m m-big">
+            <p class="m-val mono accent"><span data-count="43.92" data-decimals="2">43.92</span>%</p>
+            <p class="m-lab">reduction</p>
+          </div>
+          <div class="m m-note">
+            <p class="badge"><svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path d="M2 6.5l2.5 2.5L10 3.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>Measured in a real test</p>
+            <p class="m-lab">One workload run, not a universal guarantee.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- WHY -->
+    <section class="section" id="why" aria-labelledby="why-h">
+      <div class="wrap narrow">
+        <p class="kicker mono">01 — The problem</p>
+        <h2 id="why-h">Why context becomes expensive</h2>
+        <div class="prose">
+          <p>AI agents and coding workflows accumulate context as they run. Repository state, previous messages, tool output, file relationships, logs, instructions, intermediate results — and a lot of information that appears more than once.</p>
+          <p>Large context is expensive and noisy. Every token you send is a token you may pay for, and a token the model has to read past to find what matters.</p>
+          <p>AI Context does not blindly delete context. It is a preprocessing and optimization layer: it prepares a more efficient context <em>before</em> the model receives it.</p>
+        </div>
+
+        <figure class="flow-h" aria-label="Messy, large context goes into AI Context and comes out as relevant, reduced context for the AI model">
+          <div class="flow-box dim"><strong>Messy / large context</strong><span>logs, repo state, duplicates, tool output</span></div>
+          <span class="flow-arrow" aria-hidden="true">→</span>
+          <div class="flow-box hl"><strong>AI Context</strong><span>preprocessing layer</span></div>
+          <span class="flow-arrow" aria-hidden="true">→</span>
+          <div class="flow-box"><strong>Relevant / reduced context</strong><span>focused payload</span></div>
+          <span class="flow-arrow" aria-hidden="true">→</span>
+          <div class="flow-box"><strong>AI model</strong><span>your model or agent</span></div>
+        </figure>
+      </div>
+    </section>
+
+    <!-- HOW IT WORKS -->
+    <section class="section alt" id="how" aria-labelledby="how-h">
+      <div class="wrap">
+        <p class="kicker mono">02 — How it works</p>
+        <h2 id="how-h">One node. Four stages behind it.</h2>
+        <p class="sub">The node exposes a single user-facing operation: <code>Full Pipeline</code>. The internal stages are intentionally hidden from the normal node interface.</p>
+
+        <div class="grid-4">
+          <article class="card comp">
+            <p class="mono tag">source</p>
+            <h3>RTK</h3>
+            <p>Provides compact, repository- and working-tree-oriented context — such as Git-related information or command output — so noisy output is handled in a more compact form.</p>
+          </article>
+          <article class="card comp">
+            <p class="mono tag">source</p>
+            <h3>Graphify</h3>
+            <p>Provides graph-oriented understanding of a codebase: nodes, relationships, traversal, and the structural context around what is relevant.</p>
+          </article>
+          <article class="card comp">
+            <p class="mono tag">merge</p>
+            <h3>Context Assembly</h3>
+            <p>Combines the context from the different sources into one coherent payload before the next stage.</p>
+          </article>
+          <article class="card comp">
+            <p class="mono tag">compress</p>
+            <h3>Headroom</h3>
+            <p>The compression / optimization stage. It attempts to remove unnecessary context while preserving useful information.</p>
+          </article>
+        </div>
+
+        <p class="callout"><strong>Architecture note:</strong> RTK and Graphify are independent context sources. Graphify does <em>not</em> consume RTK output. Both feed Context Assembly separately, and Headroom then processes the assembled result.</p>
+      </div>
+    </section>
+
+    <!-- ARCHITECTURE -->
+    <section class="section" id="architecture" aria-labelledby="arch-h">
+      <div class="wrap">
+        <p class="kicker mono">03 — Architecture</p>
+        <h2 id="arch-h">Inside the pipeline</h2>
+
+        <div class="arch card" role="img" aria-label="Architecture: Input goes to AI Context. RTK and Graphify run in parallel as independent sources, feed Context Assembly, then Headroom, producing Final Context for the AI model or agent.">
+          <div class="a-node">INPUT</div>
+          <div class="a-arrow" aria-hidden="true">↓</div>
+          <div class="a-group">
+            <div class="a-title mono">AI Context</div>
+            <div class="a-row">
+              <div class="a-node src">RTK</div>
+              <div class="a-node src">Graphify</div>
+            </div>
+            <p class="a-cap mono">independent sources — run in parallel</p>
+            <div class="a-arrow" aria-hidden="true">↓</div>
+            <div class="a-node">Context Assembly</div>
+            <div class="a-arrow" aria-hidden="true">↓</div>
+            <div class="a-node">Headroom</div>
+          </div>
+          <div class="a-arrow" aria-hidden="true">↓</div>
+          <div class="a-node accent-node">Final Context</div>
+          <div class="a-arrow" aria-hidden="true">↓</div>
+          <div class="a-node">AI Model / Agent</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- BENCHMARK -->
+    <section class="section alt" id="benchmark" aria-labelledby="bench-h">
+      <div class="wrap">
+        <p class="kicker mono">04 — Benchmark</p>
+        <h2 id="bench-h">What one real test showed</h2>
+        <p class="badge big-badge"><svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path d="M2 6.5l2.5 2.5L10 3.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>Measured in a real test</p>
+
+        <div class="bench card">
+          <div class="bench-top">
+            <div class="b-stat">
+              <p class="b-num mono before" data-count="22080">22,080</p>
+              <p class="b-lab mono">TOKENS BEFORE</p>
+            </div>
+            <div class="b-mid" aria-hidden="true">→</div>
+            <div class="b-stat">
+              <p class="b-num mono after" data-count="12382">12,382</p>
+              <p class="b-lab mono">TOKENS AFTER</p>
+            </div>
+          </div>
+
+          <div class="b-hero">
+            <p class="b-pct mono"><span data-count="43.92" data-decimals="2">43.92</span><span class="pct">%</span></p>
+            <p class="b-lab mono">REDUCTION</p>
+            <p class="b-saved mono"><span data-count="9698">9,698</span> TOKENS SAVED</p>
+          </div>
+
+          <div class="bars" id="bars" role="img" aria-label="Bar chart: 22,080 tokens before at full width; 12,382 tokens after at 56.08 percent of that width">
+            <div class="bar-row">
+              <span class="bar-name mono">Before</span>
+              <div class="track"><div class="fill before" data-w="100"></div></div>
+              <span class="bar-val mono">22,080</span>
+            </div>
+            <div class="bar-row">
+              <span class="bar-name mono">After</span>
+              <div class="track"><div class="fill after" data-w="56.08"></div></div>
+              <span class="bar-val mono">12,382</span>
+            </div>
+          </div>
+
+          <dl class="facts mono">
+            <div><dt>Tokens before</dt><dd>22,080</dd></div>
+            <div><dt>Tokens after</dt><dd>12,382</dd></div>
+            <div><dt>Tokens saved</dt><dd>9,698</dd></div>
+            <div><dt>Reduction</dt><dd>43.92%</dd></div>
+            <div><dt>Measurement</dt><dd>measured</dd></div>
+          </dl>
+        </div>
+
+        <p class="note">This benchmark represents one real workload run. Actual savings vary depending on the workload, project, context structure, and model pipeline.</p>
+
+        <!-- Demo -->
+        <div class="demo">
+          <div class="demo-shot card">
+            <div class="demo-frame">
+              <div class="demo-ph" aria-hidden="true">
+                <div class="ph-flow mono">
+                  <span>n8n workflow</span><i>→</i><span class="hl">AI Context node</span><i>→</i><span>Output metrics</span>
+                </div>
+                <p class="mono ph-hint">Screenshot placeholder · assets/ai-context-demo.png</p>
+              </div>
+              <img src="assets/ai-context-demo.png" alt="n8n workflow containing the AI Context node, with output metrics showing 22,080 tokens before and 12,382 after" loading="lazy" decoding="async" width="1280" height="720" onerror="this.remove()">
+            </div>
+          </div>
+          <ul class="demo-metrics mono" aria-label="Metrics shown in the demo">
+            <li><span>before</span><b>22,080</b></li>
+            <li><span>after</span><b>12,382</b></li>
+            <li><span>saved</span><b>9,698</b></li>
+            <li><span>reduction</span><b class="accent">43.92%</b></li>
+            <li><span>measurement</span><b>measured</b></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- SAVINGS -->
+    <section class="section" id="savings" aria-labelledby="sav-h">
+      <div class="wrap">
+        <p class="kicker mono">05 — Cost</p>
+        <h2 id="sav-h">Less context can mean lower token spend</h2>
+        <div class="prose wide">
+          <p>AI Context reduces the amount of context sent downstream to the model. When a model API charges for input tokens, fewer input tokens can translate into lower input-token cost.</p>
+          <p>There is no fixed dollar figure without a model price — so use the estimator below with your own numbers.</p>
+        </div>
+
+        <form class="calc card" id="calc" onsubmit="return false" aria-labelledby="calc-h">
+          <div class="calc-head">
+            <h3 id="calc-h">Estimate your savings</h3>
+            <p class="badge warn">Illustrative estimate</p>
+          </div>
+
+          <div class="calc-grid">
+            <div class="inputs">
+              <label>Original input tokens
+                <input id="in-orig" type="number" inputmode="numeric" min="0" step="1" value="22080">
+              </label>
+              <label>Optimized input tokens
+                <input id="in-opt" type="number" inputmode="numeric" min="0" step="1" value="12382">
+              </label>
+              <label>Model price per 1M input tokens (USD)
+                <input id="in-price" type="number" inputmode="decimal" min="0" step="any" value="10">
+              </label>
+              <label>Requests per day
+                <input id="in-day" type="number" inputmode="numeric" min="0" step="1" value="100">
+              </label>
+              <label>Requests per month
+                <input id="in-month" type="number" inputmode="numeric" min="0" step="1" value="3000">
+              </label>
+              <p class="hint">Requests/day and requests/month are placeholder assumptions — change them to match your workload. Month follows day × 30 until you edit it.</p>
+              <button type="button" class="btn btn-ghost btn-sm" id="calc-reset">Reset to benchmark values</button>
+            </div>
+
+            <div class="outputs" aria-live="polite">
+              <dl>
+                <div><dt>Original cost / request</dt><dd id="o-orig">—</dd></div>
+                <div><dt>Optimized cost / request</dt><dd id="o-opt">—</dd></div>
+                <div><dt>Savings / request</dt><dd id="o-save">—</dd></div>
+                <div><dt>Savings percentage</dt><dd id="o-pct">—</dd></div>
+                <div><dt>Tokens saved / request</dt><dd id="o-tok">—</dd></div>
+                <div><dt>Tokens saved / day</dt><dd id="o-tokday">—</dd></div>
+                <div><dt>Tokens saved / month</dt><dd id="o-tokmonth">—</dd></div>
+                <div class="total"><dt>Estimated monthly input-cost savings</dt><dd id="o-monthcost" class="accent">—</dd></div>
+              </dl>
+            </div>
+          </div>
+          <p class="note">Actual billing depends on the model provider's pricing and tokenization. Output tokens, caching, and discounts are not modeled.</p>
+        </form>
+      </div>
+    </section>
+
+    <!-- N8N -->
+    <section class="section alt" id="n8n" aria-labelledby="n8n-h">
+      <div class="wrap">
+        <p class="kicker mono">06 — In n8n</p>
+        <h2 id="n8n-h">Where it sits in your workflow</h2>
+        <p class="sub">Place AI Context before your model or agent when you want to optimize the context first.</p>
+
+        <ol class="wf" aria-label="Example n8n workflow">
+          <li class="wf-node">Trigger</li>
+          <li class="wf-arrow" aria-hidden="true">→</li>
+          <li class="wf-node">Input / Prompt</li>
+          <li class="wf-arrow" aria-hidden="true">→</li>
+          <li class="wf-node hl">AI Context</li>
+          <li class="wf-arrow" aria-hidden="true">→</li>
+          <li class="wf-node">AI Model / Agent</li>
+          <li class="wf-arrow" aria-hidden="true">→</li>
+          <li class="wf-node">Output</li>
+        </ol>
+
+        <div class="card seq mono" aria-label="Request path through AI Context">
+          <ol>
+            <li>Caller</li>
+            <li class="hl">AI Context</li>
+            <li>RTK + Graphify <small>(independent sources)</small></li>
+            <li>Context Assembly</li>
+            <li>Headroom</li>
+            <li>Final Context</li>
+            <li>LLM / Agent</li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <!-- DEEP DIVE -->
+    <section class="section" id="deep-dive" aria-labelledby="deep-h">
+      <div class="wrap narrow">
+        <p class="kicker mono">07 — Technical deep dive</p>
+        <h2 id="deep-h">For developers</h2>
+
+        <details class="dd">
+          <summary>Data flow, stage by stage</summary>
+          <ol class="dd-list">
+            <li><strong>RTK</strong> — compact repository / working-tree context (Git-related information, command output). Independent source.</li>
+            <li><strong>Graphify</strong> — graph-oriented codebase context: nodes, relationships, traversal. Independent source; it does not consume RTK output.</li>
+            <li><strong>Context Assembly</strong> — merges the source outputs into one coherent payload.</li>
+            <li><strong>Headroom</strong> — compression / optimization over the assembled payload.</li>
+            <li><strong>Final Context</strong> — the optimized payload handed to your model or agent.</li>
+          </ol>
+        </details>
+
+        <details class="dd">
+          <summary>Why preprocess context at all?</summary>
+          <p>Models read everything you send. Long, repetitive, or loosely related context raises input-token usage and gives the model more to wade through. Trimming and structuring that context upstream keeps the downstream prompt more focused, and may reduce input-token usage.</p>
+        </details>
+
+        <details class="dd">
+          <summary>Why does optimization belong before the model call?</summary>
+          <p>Tokens are counted when they are sent. Once context has reached the model, you have already sent — and typically paid for — it. A preprocessing step is the last point where the payload can still be changed.</p>
+        </details>
+
+        <details class="dd">
+          <summary>Why is the node a simple abstraction over a backend?</summary>
+          <p>The n8n node exposes one operation, <code>Full Pipeline</code>. Orchestration of RTK, Graphify, Context Assembly, and Headroom is handled by a local backend, so workflow builders get a single node instead of wiring four stages by hand.</p>
+        </details>
+      </div>
+    </section>
+
+    <!-- INSTALL -->
+    <section class="section alt" id="install" aria-labelledby="inst-h">
+      <div class="wrap">
+        <p class="kicker mono">08 — Get started</p>
+        <h2 id="inst-h">Installation</h2>
+        <p class="sub">Distributed as a ZIP package.</p>
+
+        <div class="install-grid">
+          <div>
+            <ol class="steps">
+              <li>Download <code>AI-Context.zip</code></li>
+              <li>Extract the ZIP</li>
+              <li>Open PowerShell in the extracted folder</li>
+              <li>Run the installer</li>
+              <li>Start the backend</li>
+              <li>Restart n8n</li>
+              <li>Find <strong>AI Context</strong> in the node picker</li>
+              <li>Use <strong>Full Pipeline</strong></li>
+            </ol>
+
+            <div class="card pkg mono">
+              <p class="label">AI-Context.zip</p>
+              <ul>
+                <li>Install-AIContext.ps1</li>
+                <li>Start-AIContextBackend.ps1</li>
+                <li>n8n-nodes-ai-context-0.1.0.tgz</li>
+                <li>backend/</li>
+              </ul>
+            </div>
+          </div>
+
+          <div>
+            <div class="code">
+              <div class="code-head mono"><span>PowerShell — install</span><button class="copy" type="button" data-copy="code-1">Copy</button></div>
+              <pre id="code-1" tabindex="0"><code>Set-ExecutionPolicy -Scope Process Bypass -Force
+
+.\Install-AIContext.ps1</code></pre>
+            </div>
+            <div class="code">
+              <div class="code-head mono"><span>PowerShell — start backend</span><button class="copy" type="button" data-copy="code-2">Copy</button></div>
+              <pre id="code-2" tabindex="0"><code>.\Start-AIContextBackend.ps1</code></pre>
+            </div>
+            <p class="note">The local backend runs on <code>http://127.0.0.1:8000</code>. Health endpoint: <code>http://127.0.0.1:8000/health</code>.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- BENEFITS -->
+    <section class="section" id="benefits" aria-labelledby="ben-h">
+      <div class="wrap">
+        <p class="kicker mono">09 — Benefits</p>
+        <h2 id="ben-h">What you get</h2>
+        <ul class="ticks">
+          <li>Reduce unnecessary context</li>
+          <li>Reduce duplicated or noisy information</li>
+          <li>Optimize context before the model sees it</li>
+          <li>Keep the downstream prompt more focused</li>
+          <li>Potentially reduce input-token usage</li>
+          <li>Work as a preprocessing layer in n8n</li>
+          <li>Keep orchestration behind a simple node interface</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- AUDIENCE -->
+    <section class="section alt" id="who" aria-labelledby="who-h">
+      <div class="wrap">
+        <p class="kicker mono">10 — Audience</p>
+        <h2 id="who-h">Who it's for</h2>
+        <ul class="chips">
+          <li>n8n users</li>
+          <li>AI automation builders</li>
+          <li>AI agent builders</li>
+          <li>Coding-agent workflows</li>
+          <li>Developers working with large repositories</li>
+          <li>Teams trying to control LLM input usage</li>
+          <li>People building long-context AI workflows</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- LIMITS -->
+    <section class="section" id="limits" aria-labelledby="lim-h">
+      <div class="wrap narrow">
+        <p class="kicker mono">11 — Honesty</p>
+        <h2 id="lim-h">What AI Context does not guarantee</h2>
+        <p class="sub">Know the limits before you rely on it.</p>
+        <ul class="limits">
+          <li>Compression ratio varies by workload.</li>
+          <li>Not every prompt benefits equally.</li>
+          <li>Some small inputs may receive little or no compression.</li>
+          <li>Reduced token count does not automatically mean identical model quality.</li>
+          <li>The benchmark shown is a real observed test, not a universal promise.</li>
+          <li>Cost savings depend on the model provider and pricing.</li>
+        </ul>
+        <p class="note">Measure on your own workload and compare outputs before changing a production pipeline.</p>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="section alt" id="faq" aria-labelledby="faq-h">
+      <div class="wrap narrow">
+        <p class="kicker mono">12 — FAQ</p>
+        <h2 id="faq-h">Frequently asked questions</h2>
+
+        <details class="faq"><summary>What is AI Context?</summary><p>An n8n Community Node that works as a preprocessing layer: it optimizes context before it is sent to your AI model or agent.</p></details>
+        <details class="faq"><summary>Does it replace my LLM?</summary><p>No. It is not a model, chatbot, or agent. It prepares context that you then pass to whichever model or agent you already use.</p></details>
+        <details class="faq"><summary>Does it work with n8n?</summary><p>Yes — it is built as an n8n Community Node. Place it before your model or agent node.</p></details>
+        <details class="faq"><summary>What is Full Pipeline?</summary><p>The single user-facing operation of the node. It runs the whole chain — RTK and Graphify, Context Assembly, then Headroom — and returns the final context.</p></details>
+        <details class="faq"><summary>What happens inside the node?</summary><p>RTK and Graphify independently produce context. Context Assembly merges it, Headroom compresses the assembled payload, and the result is returned as Final Context. The node stays simple; a local backend handles the orchestration.</p></details>
+        <details class="faq"><summary>What are RTK, Graphify, and Headroom?</summary><p>RTK supplies compact repository / working-tree context. Graphify supplies graph-oriented codebase context. Headroom is the compression / optimization stage applied after assembly.</p></details>
+        <details class="faq"><summary>Does it always reduce tokens?</summary><p>No. Results depend on the workload. Some small inputs may see little or no compression. The 43.92% figure is one real measured test.</p></details>
+        <details class="faq"><summary>Can it reduce API costs?</summary><p>It can, when your provider charges per input token and AI Context sends fewer of them. The actual saving depends on your model's price and tokenization — use the estimator above with your own numbers.</p></details>
+        <details class="faq"><summary>Does fewer tokens mean lower quality?</summary><p>Not automatically, but it is not guaranteed to be identical either. Compare outputs on your own workload before relying on the optimized context.</p></details>
+        <details class="faq"><summary>Where does it run?</summary><p>The AI Context backend runs locally on your machine at <code>http://127.0.0.1:8000</code>, with a health endpoint at <code>/health</code>.</p></details>
+        <details class="faq"><summary>Does it require the internet?</summary><p>The AI Context backend itself runs locally. Whether your downstream model or agent needs network access depends on the provider you connect to it.</p></details>
+        <details class="faq"><summary>How do I install it?</summary><p>Download and extract the ZIP, run <code>Install-AIContext.ps1</code> in PowerShell, start the backend with <code>Start-AIContextBackend.ps1</code>, restart n8n, then look for <strong>AI Context</strong>. See <a href="#install">Installation</a>.</p></details>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="section cta" id="download" aria-labelledby="cta-h">
+      <div class="wrap narrow center">
+        <h2 id="cta-h">Send your model less context.</h2>
+        <p class="sub">Try AI Context on your own workflow and measure the difference.</p>
+        <div class="cta-row center-row">
+          <a class="btn btn-primary" data-link="DOWNLOAD_URL" href="#download">Download AI Context</a>
+          <a class="btn btn-ghost" data-link="DOCUMENTATION_URL" href="#download">View Documentation</a>
+          <a class="btn btn-ghost" data-link="GITHUB_URL" href="#download">GitHub</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap foot">
+      <div>
+        <p class="brand-text f-brand">AI<b>Context</b></p>
+        <p class="muted">Optimize context before it reaches your model.</p>
+      </div>
+      <nav aria-label="Footer">
+        <ul>
+          <li><a data-link="DOWNLOAD_URL" href="#download">Download</a></li>
+          <li><a data-link="DOCUMENTATION_URL" href="#download">Documentation</a></li>
+          <li><a data-link="GITHUB_URL" href="#download">GitHub</a></li>
+        </ul>
+      </nav>
+    </div>
+    <div class="wrap"><p class="copy-line muted">© 2026 AI Context</p></div>
+  </footer>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <script src="script.js" defer></script>
+</body>
+</html>
